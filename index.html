@@ -9,6 +9,13 @@
 <body>
     <script src="p5.min.js"></script>
     <script>
+        let conta;
+        let tempo = 0;
+        let greenLight = false;
+        let button;
+        let reazione = 0;
+        let clicked = false; 
+        
         function setup(){
             createCanvas(1400,500)
         }
@@ -28,6 +35,38 @@
             textSize(50);
             textAlign(CENTER, CENTER);
             text('TEST DEI RIFLESSI', width / 2, 50);
+
+            if (greenLight && !button) {
+                button = createButton('Clicca qui');
+                button.position(width / 2 - 100, height / 2 + circleDiameter);
+                button.size(200, 100);
+                button.style('font-size', '24px');
+                button.mousePressed(misura);
+                tempo = millis(); 
+            }
+
+            if (clicked) {
+                textSize(30);
+                text('Tempo di reazione: ' + (reazione / 1000).toFixed(2) + ' secondi', width / 2, height / 2 + circleDiameter * 2);
+            }
+        }
+
+        function misura() {
+            reazione = millis() - tempo; 
+            clicked = true;
+            button.remove();
+        }
+        
+        function contaUpdate() {
+            if (conta > 0) {
+            conta--;
+            } else if (!greenLight) {
+                greenLight = true; 
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
         }
 
     </script>
